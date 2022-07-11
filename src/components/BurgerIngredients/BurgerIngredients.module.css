@@ -1,0 +1,36 @@
+.ingredients {
+  max-width: 600px;
+}
+.tabs {
+  display: flex;
+}
+.container {
+  padding: 0 8px 0 0;
+  list-style: none;
+  margin: 40px 0 0 0;
+  max-height: 750px;
+  overflow: auto;
+  box-sizing: border-box;
+}
+.container::-webkit-scrollbar-thumb {
+  background: #8585AD;
+}
+.container::-webkit-scrollbar-track {
+  background: #2F2F37;
+}
+.container::-webkit-scrollbar {
+  width: 8px;
+}
+.content {
+  margin-bottom: 64px;
+}
+.content:last-child{
+  margin: 0;
+}
+.cards {
+  display: grid;
+  grid-template-columns: 272px 272px;
+  padding: 0;
+  list-style: none;
+  justify-content: space-between;
+}
