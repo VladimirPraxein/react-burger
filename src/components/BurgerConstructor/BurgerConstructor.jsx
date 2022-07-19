@@ -1,10 +1,12 @@
-import React from 'react';
+import {useState} from 'react';
 import { ConstructorElement, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './BurgerConstructor.module.css';
 import { CardsConstructor } from '../CardsConstructor/CardsConstructor';
+import OrderDetails from '../OrderDetails/OrderDetails'
 import Currency from '../../images/Currency.svg'
 import PropTypes from 'prop-types';
 export function BurgerConstructor(props) {
+  const [open, setOpen] = useState(false);
   return (
     <section className={styles.constructor}>
       <ul className={styles.ingredients}>
@@ -33,11 +35,11 @@ export function BurgerConstructor(props) {
       <div className={styles.total}>
         <p className="text text_type_digits-medium mr-2">610</p>
         <img src={Currency} alt="" className='mr-10' />
-        <Button type="primary" size="large">
+        <Button type="primary" size="large" onClick={() => {setOpen(true)}}>
           Оформить заказ
         </Button>
       </div>
-
+      <OrderDetails open={open} setState={setOpen}/>
     </section>
   )
 }

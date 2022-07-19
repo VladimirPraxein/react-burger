@@ -1,0 +1,25 @@
+.content {
+  padding: 50px 40px 60px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.title {
+  align-self: flex-start;
+  max-width: 580px;
+}
+.image {
+  width: 480px;
+}
+.list {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  width: 520px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.item {
+  text-align: center;
+}
