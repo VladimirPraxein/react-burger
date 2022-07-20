@@ -1,6 +1,6 @@
 import { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './CardsConstructor.module.css';
-import PropTypes from 'prop-types';
+import itemType from '../utils/type.js';
 export function CardsConstructor(props) {
   return (
     <li className={styles.card}>
@@ -10,9 +10,5 @@ export function CardsConstructor(props) {
   )
 }
 CardsConstructor.propTypes = {
-  ingredient: PropTypes.shape({
-    text:PropTypes.string,
-    price:PropTypes.number,
-    thembail:PropTypes.string
-  }).isRequired
+  ingredient: itemType
 }; 

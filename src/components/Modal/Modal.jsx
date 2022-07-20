@@ -19,18 +19,19 @@ export default function Modal(props) {
     props.setState(false);
   }
 
-  function clickOnEsc(e) {
-    if (e.key === 'Escape') {
-      onClose();
-    }
-  }
-
   useEffect(() => {
-    document.addEventListener('keydown', clickOnEsc);
-    return () => {
-      document.removeEventListener('keydown', clickOnEsc);
+    function clickOnEsc(e) {
+      if (e.key === 'Escape') {
+        onClose();
+      }
     }
-  }, [])
+    if (props.open) { 
+      document.addEventListener('keydown', clickOnEsc);
+      return () => {
+        document.removeEventListener('keydown', clickOnEsc);
+      }
+    }
+  },[props.open])
   if (props.open) {
     return createPortal(
       <>

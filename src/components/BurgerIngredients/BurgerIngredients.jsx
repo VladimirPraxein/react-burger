@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { CardsIngredients } from '../CardsIngredients/CardsIngredients.jsx';
 import IngredientsDetails from '../IngredientDetails/IngredientDetails';
+import Modal from "../Modal/Modal";
 import styles from './BurgerIngredients.module.css';
 import PropTypes from 'prop-types';
 export function BurgerIngredients(props) {
@@ -44,10 +45,10 @@ export function BurgerIngredients(props) {
           </li>
         </ul>
       </section>
-      {data && (<IngredientsDetails open={open} setState={setOpen} ingredient={data} />)}
+      {data && (<Modal open={open} setState={setOpen}> <IngredientsDetails ingredient={data} /> </Modal>)}
     </>
   )
 }
 BurgerIngredients.propTypes = {
-  ingredients: PropTypes.array.isRequired
+  ingredients: PropTypes.array.isRequired,
 }; 

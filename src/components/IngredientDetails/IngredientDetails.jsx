@@ -1,9 +1,7 @@
-import Modal from "../Modal/Modal";
 import styles from './IngredientDetails.module.css';
-import PropTypes from 'prop-types';
+import itemType from '../utils/type.js';
 export default function IngredientDetails(props) {
   return (
-    <Modal open={props.open} setState={props.setState}>
       <div className={styles.content}>
         <h2 className={`text text_type_main-large ${styles.title}`}>Детали ингредиента</h2>
         <img src={props.ingredient.image} className={styles.image} />
@@ -27,18 +25,8 @@ export default function IngredientDetails(props) {
           </li>
         </ul>
       </div>
-    </Modal>
   )
 }
 IngredientDetails.propTypes = {
-  open: PropTypes.bool.isRequired,
-  setState: PropTypes.func.isRequired,
-  ingredient: PropTypes.shape({
-    name: PropTypes.string,
-    image: PropTypes.string,
-    calories: PropTypes.number,
-    proteins: PropTypes.number,
-    fat: PropTypes.number,
-    carbohydrates: PropTypes.number
-  }).isRequired
+  ingredient: itemType
 }; 

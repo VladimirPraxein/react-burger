@@ -5,6 +5,7 @@ import { CardsConstructor } from '../CardsConstructor/CardsConstructor';
 import OrderDetails from '../OrderDetails/OrderDetails'
 import Currency from '../../images/Currency.svg'
 import PropTypes from 'prop-types';
+import Modal from "../Modal/Modal";
 export function BurgerConstructor(props) {
   const [open, setOpen] = useState(false);
   return (
@@ -20,7 +21,7 @@ export function BurgerConstructor(props) {
           />
         </li>
         <ul className={styles.cards}>
-          {props.ingredients.slice(1, -1).map(ingredient => (<CardsConstructor ingredient={ingredient} key={ingredient._id} />))}
+          {props.ingredients.slice(2, -1).map(ingredient => (<CardsConstructor ingredient={ingredient} key={ingredient._id} />))}
         </ul>
         <li className={styles.ingredient}>
           <ConstructorElement
@@ -39,7 +40,7 @@ export function BurgerConstructor(props) {
           Оформить заказ
         </Button>
       </div>
-      <OrderDetails open={open} setState={setOpen}/>
+      <Modal open={open} setState={setOpen}><OrderDetails /></Modal>
     </section>
   )
 }

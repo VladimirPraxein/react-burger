@@ -1,5 +1,6 @@
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './CardsIngredients.module.css';
+import itemType from '../utils/type.js';
 import PropTypes from 'prop-types';
 export function CardsIngredients(props) {
 
@@ -17,10 +18,5 @@ export function CardsIngredients(props) {
 }
 CardsIngredients.propTypes = {
   setState: PropTypes.func.isRequired,
-  ingredient: PropTypes.shape({
-    name: PropTypes.string,
-    price: PropTypes.number,
-    image: PropTypes.string,
-    __v: PropTypes.number
-  }).isRequired
+  ingredient: itemType
 }; 
