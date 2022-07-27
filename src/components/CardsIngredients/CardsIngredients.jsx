@@ -1,10 +1,11 @@
-import React from 'react';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './CardsIngredients.module.css';
+import itemType from '../utils/type.js';
 import PropTypes from 'prop-types';
 export function CardsIngredients(props) {
+
   return (
-    <li className={styles.card}>
+    <li className={styles.card} onClick={() => { props.setState() }}>
       <Counter count={props.ingredient.__v} size="default" />
       <img src={props.ingredient.image} className={`${styles.image} mb-2`} />
       <div className={styles.price}>
@@ -16,10 +17,6 @@ export function CardsIngredients(props) {
   )
 }
 CardsIngredients.propTypes = {
-  ingredient: PropTypes.shape({
-    name:PropTypes.string,
-    price:PropTypes.number,
-    image:PropTypes.string,
-    __v:PropTypes.number
-  }).isRequired
+  setState: PropTypes.func.isRequired,
+  ingredient: itemType
 }; 
