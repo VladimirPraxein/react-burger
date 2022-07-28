@@ -3,15 +3,8 @@ import styles from './App.module.css';
 import { AppHeader } from '../AppHeader/AppHeader';
 import { BurgerIngredients } from '../BurgerIngredients/BurgerIngredients';
 import { BurgerConstructor } from '../BurgerConstructor/BurgerConstructor';
-
-const baseUrl = 'https://norma.nomoreparties.space/api/ingredients';
-
-function processRequest(res) {
-  if (res.ok) {
-    return res.json();
-  }
-  return Promise.reject(`Ошибка: ${res.status}`);
-}
+import { appContext } from '../../services/appContext';
+import { getIngredients } from '../../components/utils/api';
 
 function App() {
 
@@ -28,7 +21,7 @@ function App() {
         isLoading: true
       }));
       try {
-        const ingridients = await fetch(baseUrl).then(processRequest);
+        const ingridients = await getIngredients();
         setState((prevState) => ({
           ...prevState,
           data: ingridients.data,
@@ -50,18 +43,20 @@ function App() {
     <>
 
       <div className="App">
-        <AppHeader />
-        <main className={styles.main}>
-          {state.isLoading && 'Загрузка...'}
-          {state.hasError && 'Произошла ошибка'}
-          {!state.isLoading && !state.hasError &&
-            state.data.length && (
-              <>
-                <BurgerIngredients ingredients={state.data} />
-                <BurgerConstructor ingredients={state.data} />
-              </>
-            )}
-        </main>
+        <appContext.Provider value={{ state, setState }}>
+          <AppHeader />
+          <main className={styles.main}>
+            {state.isLoading && 'Загрузка...'}
+            {state.hasError && 'Произошла ошибка'}
+            {!state.isLoading && !state.hasError &&
+              state.data.length && (
+                <>
+                  <BurgerIngredients />
+                  <BurgerConstructor />
+                </>
+              )}
+          </main>
+        </appContext.Provider>
       </div>
     </>
   );
