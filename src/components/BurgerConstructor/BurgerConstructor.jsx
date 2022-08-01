@@ -5,11 +5,11 @@ import { CardsConstructor } from '../CardsConstructor/CardsConstructor';
 import OrderDetails from '../OrderDetails/OrderDetails'
 import Currency from '../../images/Currency.svg'
 import Modal from "../Modal/Modal";
-import { appContext } from '../../services/appContext.jsx';
+import { AppContext } from '../../services/AppContext.jsx';
 import { createOrder } from '../../components/utils/api';
 export function BurgerConstructor() {
   const [open, setOpen] = useState(false);
-  const { state } = useContext(appContext);
+  const { state } = useContext(AppContext);
   const bun = state.data.find(item => item.type === 'bun');
   const ingredients = state.data.filter(item => item.type !== 'bun');
   const ingredientsId = ingredients.map(item => item._id);
@@ -31,6 +31,7 @@ export function BurgerConstructor() {
         setOrderInfo(res)
         setOpen(true)
       })
+      .catch(err => console.log(err))
   }
   return (
     <section className={styles.constructor}>

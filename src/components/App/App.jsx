@@ -3,7 +3,7 @@ import styles from './App.module.css';
 import { AppHeader } from '../AppHeader/AppHeader';
 import { BurgerIngredients } from '../BurgerIngredients/BurgerIngredients';
 import { BurgerConstructor } from '../BurgerConstructor/BurgerConstructor';
-import { appContext } from '../../services/appContext';
+import { AppContext } from '../../services/AppContext';
 import { getIngredients } from '../../components/utils/api';
 
 function App() {
@@ -21,7 +21,8 @@ function App() {
         isLoading: true
       }));
       try {
-        const ingridients = await getIngredients();
+        const ingridients = await getIngredients()
+        .catch(err => console.log(err))
         setState((prevState) => ({
           ...prevState,
           data: ingridients.data,
@@ -40,25 +41,22 @@ function App() {
     getData();
   }, [])
   return (
-    <>
-
-      <div className="App">
-        <appContext.Provider value={{ state, setState }}>
-          <AppHeader />
-          <main className={styles.main}>
-            {state.isLoading && 'Загрузка...'}
-            {state.hasError && 'Произошла ошибка'}
-            {!state.isLoading && !state.hasError &&
-              state.data.length && (
-                <>
-                  <BurgerIngredients />
-                  <BurgerConstructor />
-                </>
-              )}
-          </main>
-        </appContext.Provider>
-      </div>
-    </>
+    <div className="App">
+      <AppContext.Provider value={{ state, setState }}>
+        <AppHeader />
+        <main className={styles.main}>
+          {state.isLoading && 'Загрузка...'}
+          {state.hasError && 'Произошла ошибка'}
+          {!state.isLoading && !state.hasError &&
+            state.data.length && (
+              <>
+                <BurgerIngredients />
+                <BurgerConstructor />
+              </>
+            )}
+        </main>
+      </AppContext.Provider>
+    </div>
   );
 }
 
