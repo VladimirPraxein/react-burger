@@ -1,13 +1,38 @@
-import {useState} from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { ConstructorElement, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './BurgerConstructor.module.css';
 import { CardsConstructor } from '../CardsConstructor/CardsConstructor';
 import OrderDetails from '../OrderDetails/OrderDetails'
 import Currency from '../../images/Currency.svg'
-import PropTypes from 'prop-types';
 import Modal from "../Modal/Modal";
-export function BurgerConstructor(props) {
+import { AppContext } from '../../services/AppContext.jsx';
+import { createOrder } from '../../components/utils/api';
+export function BurgerConstructor() {
   const [open, setOpen] = useState(false);
+  const { state } = useContext(AppContext);
+  const bun = state.data.find(item => item.type === 'bun');
+  const ingredients = state.data.filter(item => item.type !== 'bun');
+  const ingredientsId = ingredients.map(item => item._id);
+  ingredientsId.push(bun._id);
+  const [total, setTotal] = useState(0);
+  const [orderInfo, setOrderInfo] = useState({
+    name: '',
+    order: {
+      number: null
+    },
+    success: false
+  })
+  useEffect(() => {
+    setTotal(ingredients.reduce((sum, currValue) => sum + currValue.price, bun.price * 2))
+  }, [ingredients, bun]);
+  function popupOpen() {
+    createOrder(ingredientsId)
+      .then(res => {
+        setOrderInfo(res)
+        setOpen(true)
+      })
+      .catch(err => console.log(err))
+  }
   return (
     <section className={styles.constructor}>
       <ul className={styles.ingredients}>
@@ -15,35 +40,32 @@ export function BurgerConstructor(props) {
           <ConstructorElement
             type="top"
             isLocked={true}
-            text="Краторная булка N-200i (верх)"
-            price={1255}
-            thumbnail={props.ingredients[0].image}
+            text={`${bun.name} (вверх)`}
+            price={bun.price}
+            thumbnail={bun.image}
           />
         </li>
         <ul className={styles.cards}>
-          {props.ingredients.slice(2, -1).map(ingredient => (<CardsConstructor ingredient={ingredient} key={ingredient._id} />))}
+          {ingredients.map(ingredient => (<CardsConstructor ingredient={ingredient} key={ingredient._id} />))}
         </ul>
         <li className={styles.ingredient}>
           <ConstructorElement
             type="bottom"
             isLocked={true}
-            text="Краторная булка N-200i (низ)"
-            price={1255}
-            thumbnail={props.ingredients[0].image}
+            text={`${bun.name} (низ)`}
+            price={bun.price}
+            thumbnail={bun.image}
           />
         </li>
       </ul>
       <div className={styles.total}>
-        <p className="text text_type_digits-medium mr-2">610</p>
+        <p className="text text_type_digits-medium mr-2">{total}</p>
         <img src={Currency} alt="" className='mr-10' />
-        <Button type="primary" size="large" onClick={() => {setOpen(true)}}>
+        <Button type="primary" size="large" onClick={popupOpen}>
           Оформить заказ
         </Button>
       </div>
-      <Modal open={open} setState={setOpen}><OrderDetails /></Modal>
+      <Modal open={open} setState={setOpen}><OrderDetails orderInfo={orderInfo} /></Modal>
     </section>
   )
 }
-BurgerConstructor.propTypes = {
-  ingredients: PropTypes.array.isRequired
-}; 

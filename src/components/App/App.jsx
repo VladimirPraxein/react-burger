@@ -3,15 +3,8 @@ import styles from './App.module.css';
 import { AppHeader } from '../AppHeader/AppHeader';
 import { BurgerIngredients } from '../BurgerIngredients/BurgerIngredients';
 import { BurgerConstructor } from '../BurgerConstructor/BurgerConstructor';
-
-const baseUrl = 'https://norma.nomoreparties.space/api/ingredients';
-
-function processRequest(res) {
-  if (res.ok) {
-    return res.json();
-  }
-  return Promise.reject(`Ошибка: ${res.status}`);
-}
+import { AppContext } from '../../services/AppContext';
+import { getIngredients } from '../../components/utils/api';
 
 function App() {
 
@@ -28,7 +21,8 @@ function App() {
         isLoading: true
       }));
       try {
-        const ingridients = await fetch(baseUrl).then(processRequest);
+        const ingridients = await getIngredients()
+        .catch(err => console.log(err))
         setState((prevState) => ({
           ...prevState,
           data: ingridients.data,
@@ -47,9 +41,8 @@ function App() {
     getData();
   }, [])
   return (
-    <>
-
-      <div className="App">
+    <div className="App">
+      <AppContext.Provider value={{ state, setState }}>
         <AppHeader />
         <main className={styles.main}>
           {state.isLoading && 'Загрузка...'}
@@ -57,13 +50,13 @@ function App() {
           {!state.isLoading && !state.hasError &&
             state.data.length && (
               <>
-                <BurgerIngredients ingredients={state.data} />
-                <BurgerConstructor ingredients={state.data} />
+                <BurgerIngredients />
+                <BurgerConstructor />
               </>
             )}
         </main>
-      </div>
-    </>
+      </AppContext.Provider>
+    </div>
   );
 }
 
